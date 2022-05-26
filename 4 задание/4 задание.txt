@@ -1,0 +1,40 @@
+В данной задаче я рассматривал решение на базе PostgreSQL.
+
+CREATE TABLE IF NOT EXISTS sportsmen (
+	Id SERIAL PRIMARY KEY,
+	fullName VARCHAR(255) NOT NULL,
+	email	VARCHAR(255),
+	phoneNumber VARCHAR(12),
+	birthDate DATE,
+	age INTEGER,
+	timeCreate TIMESTAMP,
+	passportNum VARCHAR(10),
+	averagePlace DECIMAL,
+	biography TEXT,
+	presentationUrl	TEXT,
+);
+
+По поводу выбора типов данных для хранения:
+1. только Российских номеров. В числовых типах хранить весь номер не выйдет, следовательно, нужно что-то выдумывать.
+Решил, что логичнее будет где-то на вводе прописать регулярное выражение, чтобы первые 3 символа были '+79',
+а в базе хранить как символы. Поэтому VARCHAR(12).
+2. видео. Мне кажется, всегда видео хранятся где-то на хостингах, а подгружают их с базы по url. Поэтому для URL - TEXT.
+
+
+Продолжение задания:
+"выберите из БД топ 5 ФИО спортсменов, больше остальных посетивших соревнований (одним SQL-запросом и без вложенных SELECT’ов)"
+
+Подсчет количества соревнований требует второй таблицы results.
+
+Запрос:
+SELECT sportsman.fullname, COUNT(results.result)
+FROM sportsman, results
+WHERE sportsman.id = results.sportsmanid
+GROUP BY sportsman.fullname
+ORDER BY COUNT(results.result) DESC
+LIMIT 1;
+
+Я уверен, что это не единственно правильное решение, но оно корректно работает и выполняет задачу.
+Скриншот работоспособности приложил в папке.
+
+

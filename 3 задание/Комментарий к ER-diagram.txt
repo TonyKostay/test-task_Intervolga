@@ -1,0 +1,14 @@
+В сущности list_of_winners я сделал составной первичный ключ по Id соревнования и занятому месту.
+Возможно, обозначил там неверно.
+
+При создании таблицы я бы сделал так:
+
+CREATE TABLE list_of_winners(
+	place SERIAL,
+	competitions_id INTEGER,
+	sportsman_id INTEGER,
+	PRIMARY KEY(place, competitions_id),
+	FOREIGN KEY (competitions_id) REFERENCES competitions(id) ON DELETE CASCADE,
+	FOREIGN KEY (sportsman_id) REFERENCES sportsman(id) ON DELETE CASCADE
+	       
+      );
